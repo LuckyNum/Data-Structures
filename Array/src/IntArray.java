@@ -2,7 +2,7 @@
  * @author chenghao.li@hand-china.com
  * @since 2018年07月21日 16:57:30
  */
-public class Array {
+public class IntArray {
 
     private int[] data;
     private int size;
@@ -11,7 +11,7 @@ public class Array {
      *  构造函数，传入数组的容量capacity构造Array
      * @param capacity
      */
-    public Array(int capacity) {
+    public IntArray(int capacity) {
         this.data = new int[capacity];
         this.size = 0;
     }
@@ -19,7 +19,7 @@ public class Array {
     /**
      * 无参构造，默认大小为10
      */
-    public Array() {
+    public IntArray() {
         this(10);
     }
 
@@ -70,7 +70,7 @@ public class Array {
      */
     public void add(int index, int e) {
         if (size == data.length) {
-            throw new IllegalArgumentException("Add failed. Array is full.");
+            throw new IllegalArgumentException("Add failed. IntArray is full.");
         }
 
         if (index < 0 || index > size) {
@@ -110,10 +110,84 @@ public class Array {
         data[index] = e;
     }
 
+    /**
+     * 查找数组中是否有元素e
+     * @param e
+     * @return
+     */
+    public boolean contains(int e) {
+        for (int i = 0; i < size; i++) {
+            if (data[i] == e) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * 查找数组中元素e的索引，如果不存在，返回-1
+     * 查找的是最左边的第一个
+     * @param e
+     * @return
+     */
+    public int find(int e) {
+        for (int i = 0; i < size; i++) {
+            if (data[i] == e) {
+                return i;
+            }
+        }
+        return -1;
+    }
+
+    /**
+     * 删除指定index元素
+     * @param index
+     * @return 被删除元素
+     */
+    public int remove(int index) {
+        if (index < 0 || index >= size) {
+            throw new IllegalArgumentException("Remove failed. Index is illegal.");
+        }
+        int ret = data[index];
+        // 从被删除索引处，元素左移一位
+        for (int i = index + 1; i < size; i++) {
+            data[i-1] = data[i];
+        }
+        size--;
+        return ret;
+    }
+
+    /**
+     * 删除第一个元素
+     * @return 被删除元素
+     */
+    public int removeFirst() {
+        return remove(0);
+    }
+
+    /**
+     * 删除最后一个元素
+     * @return 被删除元素
+     */
+    public int removeLast() {
+        return remove(size - 1);
+    }
+
+    /**
+     * 删除指定元素
+     * @param e
+     */
+    public void removeElement(int e) {
+        int index = find(e);
+        if (index != -1) {
+            remove(index);
+        }
+    }
+
     @Override
     public String toString() {
         StringBuilder builder = new StringBuilder();
-        builder.append(String.format("Array: size = %d, capacity = %d\n", size, data.length));
+        builder.append(String.format("IntArray: size = %d, capacity = %d\n", size, data.length));
         builder.append("[");
         for (int i = 0; i < size; i++) {
             builder.append(data[i]);
